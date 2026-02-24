@@ -5,8 +5,25 @@
     "kafka-streams.*",
     "camel.*",
     "quarkus.http.*",
-    "quarkus.http.cors"
+    "quarkus.http.cors",
+    "quarkus.dev-ui.cors.enabled",
+    "quarkus.dev-ui.cors.*",
+    "quarkus.dev-ui.*"
   ],
   "java.compile.nullAnalysis.mode": "automatic",
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "dbcode.connections": [
+    {
+      "connectionId": "josUd3kQvS_X7mHnFRc-Y",
+      "name": "manufacturing-db",
+      "driver": "h2",
+      "color": "#0074B3",
+      "connectionType": "embedded",
+      "socket": "./manufacturing-planner-api/data/mydb;AUTO_SERVER=TRUE",
+      "username": "sa",
+      "savePassword": "secretStorage",
+      "readOnly": false,
+      "postConnectionSqlType": "inline"
+    }
+  ]
 }

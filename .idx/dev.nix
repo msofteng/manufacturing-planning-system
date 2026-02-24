@@ -23,6 +23,7 @@
       "redhat.vscode-quarkus"
       "vscjava.vscode-java-pack"
       "MS-CEINTL.vscode-language-pack-pt-BR"
+      "dbcode.dbcode"
     ];
     # Enable previews
     previews = {
