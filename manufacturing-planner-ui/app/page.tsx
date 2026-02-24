@@ -34,10 +34,12 @@ import { getProducts, getRawMaterials } from "@/lib/store"
 export default function DashboardPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [rawMaterials, setRawMaterials] = useState<RawMaterial[]>([])
+  const [message, setMessage] = useState<string>("-")
 
   useEffect(() => {
     setProducts(getProducts())
     setRawMaterials(getRawMaterials())
+    fetchTestApi()
   }, [])
 
   const totalProductsValue = products.reduce((sum, p) => sum + p.price, 0)
@@ -49,12 +51,20 @@ export default function DashboardPage() {
     (rm) => rm.stockQuantity < 100
   )
 
+  const fetchTestApi = () => {
+    fetch(`${ window.location.origin.replace('3000', '8080') }/hello`)
+      .then(response => response.text())
+      .then(message => setMessage(message))
+  }
+
   return (
     <>
       <PageHeader
         title="Dashboard"
         description="Overview of your manufacturing system"
       />
+
+      { message }
 
       <div className="flex flex-col gap-6 p-4 md:p-6">
         {/* Summary Cards */}
