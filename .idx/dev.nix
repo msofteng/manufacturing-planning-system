@@ -38,6 +38,23 @@
         #     PORT = "$PORT";
         #   };
         # };
+        api = {
+          command = ["./mvnw" "quarkus:dev"];
+          cwd = "manufacturing-planner-api";
+          manager = "web";
+          env = {
+            PORT = "8080";
+          };
+        };
+
+        ui = {
+          command = ["npx" "next" "start"];
+          cwd = "manufacturing-planner-ui";
+          manager = "web";
+          env = {
+            PORT = "3000";
+          };
+        };
       };
     };
     # Workspace lifecycle hooks
