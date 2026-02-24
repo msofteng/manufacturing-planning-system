@@ -10,6 +10,8 @@
     # pkgs.python311Packages.pip
     # pkgs.nodejs_20
     # pkgs.nodePackages.nodemon
+    pkgs.jdk17
+    pkgs.maven3
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -18,6 +20,9 @@
     extensions = [
       # "vscodevim.vim"
       "google.gemini-cli-vscode-ide-companion"
+      "redhat.vscode-quarkus"
+      "vscjava.vscode-java-pack"
+      "MS-CEINTL.vscode-language-pack-pt-BR"
     ];
     # Enable previews
     previews = {
