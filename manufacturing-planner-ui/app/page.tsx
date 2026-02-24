@@ -235,7 +235,7 @@ export default function DashboardPage() {
                           {material.stockQuantity}
                         </span>
                         {material.stockQuantity === 0 ? (
-                          <Badge variant="destructive" className="text-destructive-foreground">
+                          <Badge variant="destructive">
                             Empty
                           </Badge>
                         ) : (

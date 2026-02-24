@@ -49,7 +49,7 @@
         };
 
         ui = {
-          command = ["npx" "next" "start"];
+          command = ["npx" "next" "dev"];
           cwd = "manufacturing-planner-ui";
           manager = "web";
           env = {

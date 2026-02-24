@@ -83,7 +83,7 @@ export default function RawMaterialsPage() {
   const getStockBadge = (qty: number) => {
     if (qty === 0)
       return (
-        <Badge variant="destructive" className="text-destructive-foreground">
+        <Badge variant="destructive">
           Out of Stock
         </Badge>
       )
@@ -222,7 +222,7 @@ export default function RawMaterialsPage() {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className="bg-destructive hover:bg-destructive/90"
             >
               Delete
             </AlertDialogAction>
