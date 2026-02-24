@@ -12,6 +12,7 @@
     # pkgs.nodePackages.nodemon
     pkgs.jdk17
     pkgs.maven3
+    pkgs.chromium
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -24,6 +25,7 @@
       "vscjava.vscode-java-pack"
       "MS-CEINTL.vscode-language-pack-pt-BR"
       "dbcode.dbcode"
+      "antfu.browse-lite"
     ];
     # Enable previews
     previews = {

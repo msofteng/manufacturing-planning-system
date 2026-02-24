@@ -30,5 +30,8 @@
         ]
       }
     }
-  ]
+  ],
+  "editor.tabSize": 2,
+  "browse-lite.startUrl": "https://3000-firebase-manufacturing-plan-1771902931191.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev",
+  "browse-lite.chromeExecutable": "/usr/bin/chromium"
 }
