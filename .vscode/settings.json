@@ -19,11 +19,16 @@
       "driver": "h2",
       "color": "#0074B3",
       "connectionType": "embedded",
-      "socket": "./manufacturing-planner-api/data/mydb;AUTO_SERVER=TRUE",
+      "socket": "./manufacturing-planner-api/data/manufacturingdb;AUTO_SERVER=TRUE",
       "username": "sa",
       "savePassword": "secretStorage",
       "readOnly": false,
-      "postConnectionSqlType": "inline"
+      "postConnectionSqlType": "inline",
+      "filters": {
+        "": [
+          "MANUFACTURINGDB"
+        ]
+      }
     }
   ]
 }
