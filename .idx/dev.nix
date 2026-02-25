@@ -26,6 +26,7 @@
       "MS-CEINTL.vscode-language-pack-pt-BR"
       "dbcode.dbcode"
       "antfu.browse-lite"
+      "redhat.vscode-xml"
     ];
     # Enable previews
     previews = {

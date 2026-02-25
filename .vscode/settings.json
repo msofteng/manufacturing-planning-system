@@ -11,7 +11,7 @@
     "quarkus.dev-ui.*"
   ],
   "java.compile.nullAnalysis.mode": "automatic",
-  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.configuration.updateBuildConfiguration": "automatic",
   "dbcode.connections": [
     {
       "connectionId": "josUd3kQvS_X7mHnFRc-Y",
