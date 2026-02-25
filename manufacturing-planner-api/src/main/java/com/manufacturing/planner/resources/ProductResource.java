@@ -1,5 +1,7 @@
 package com.manufacturing.planner.resources;
 
+import java.util.List;
+
 import com.manufacturing.planner.entities.ProductEntity;
 import com.manufacturing.planner.repos.ProductRepository;
 
@@ -15,5 +17,11 @@ public class ProductResource {
   @Path("/{id}")
   public ProductEntity getProduct(@PathParam("id") Long id) {
     return productRepository.findById(id);
+  }
+
+  @GET
+  @Path("/list")
+  public List<ProductEntity> listProducts() {
+    return productRepository.findAll().list();
   }
 }
