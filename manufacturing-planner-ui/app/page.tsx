@@ -30,6 +30,7 @@ import {
 import { PageHeader } from "@/components/page-header"
 import type { Product, RawMaterial } from "@/lib/types"
 import { getProducts, getRawMaterials } from "@/lib/store"
+import service from "@/lib/service"
 
 export default function DashboardPage() {
   const [products, setProducts] = useState<Product[]>([])
@@ -39,7 +40,7 @@ export default function DashboardPage() {
   useEffect(() => {
     setProducts(getProducts())
     setRawMaterials(getRawMaterials())
-    fetchTestApi()
+    service.fetchTestApi().then(message => setMessage(message))
   }, [])
 
   const totalProductsValue = products.reduce((sum, p) => sum + p.price, 0)
@@ -50,12 +51,6 @@ export default function DashboardPage() {
   const lowStockMaterials = rawMaterials.filter(
     (rm) => rm.stockQuantity < 100
   )
-
-  const fetchTestApi = () => {
-    fetch(`${ window.location.origin.replace('3000', '8080') }/hello`)
-      .then(response => response.text())
-      .then(message => setMessage(message))
-  }
 
   return (
     <>
