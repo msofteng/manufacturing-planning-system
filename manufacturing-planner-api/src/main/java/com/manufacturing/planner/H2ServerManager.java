@@ -37,10 +37,10 @@ public class H2ServerManager {
 
       if (os.contains("win")) {
         pb = new ProcessBuilder("cmd.exe", "/c",
-            "for /f \"tokens=5\" %a in ('netstat -aon ^| find \":" + port + "\"') do taskkill /f /pid %a");
+          "for /f \"tokens=5\" %a in ('netstat -aon ^| find \":" + port + "\"') do taskkill /f /pid %a");
       } else {
         pb = new ProcessBuilder("sh", "-c",
-            "fuser -k " + port + "/tcp 2>/dev/null || lsof -ti:" + port + " | xargs kill -9 2>/dev/null");
+          "fuser -k " + port + "/tcp 2>/dev/null || lsof -ti:" + port + " | xargs kill -9 2>/dev/null");
       }
 
       pb.inheritIO().start().waitFor();

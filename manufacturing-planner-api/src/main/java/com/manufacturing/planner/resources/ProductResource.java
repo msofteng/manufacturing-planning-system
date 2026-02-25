@@ -13,7 +13,6 @@ public class ProductResource {
 
   @GET
   @Path("/{id}")
-  @Produces("application/json")
   public ProductEntity getProduct(@PathParam("id") Long id) {
     return productRepository.findById(id);
   }

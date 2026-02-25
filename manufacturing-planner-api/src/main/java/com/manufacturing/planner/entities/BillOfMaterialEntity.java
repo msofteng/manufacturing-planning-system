@@ -1,5 +1,6 @@
 package com.manufacturing.planner.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,7 @@ public class BillOfMaterialEntity {
 
   @ManyToOne
   @JoinColumn(name = "product_id")
+  @JsonIgnore // Quebra a referência circular com ProductEntity
   private ProductEntity product;
 
   @ManyToOne

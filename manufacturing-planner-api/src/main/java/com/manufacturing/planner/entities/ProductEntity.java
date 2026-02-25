@@ -16,6 +16,6 @@ public class ProductEntity {
   private String name;
   private Double price;
 
-  @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<BillOfMaterialEntity> billOfMaterials;
 }

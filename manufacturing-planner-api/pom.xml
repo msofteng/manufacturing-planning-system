@@ -97,12 +97,12 @@
 				<version>${compiler-plugin.version}</version>
 				<configuration>
 					<parameters>true</parameters>
-					<annotationProcessorPathsUseDepMgmt>true</annotationProcessorPathsUseDepMgmt>
 					<annotationProcessorPaths>
 						<path>
-							<groupId>org.hibernate.orm</groupId>
-							<artifactId>hibernate-processor</artifactId>
-						</path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
