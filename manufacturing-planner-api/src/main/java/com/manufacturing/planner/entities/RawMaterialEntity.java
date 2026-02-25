@@ -20,6 +20,6 @@ public class RawMaterialEntity {
   private Integer stockQuantity;
 
   @OneToMany(mappedBy = "rawMaterial", cascade = CascadeType.ALL)
-  @JsonIgnore // Evita loop infinito rawMaterial -> billOfMaterials -> rawMaterial
+  @JsonIgnore
   private List<BillOfMaterialEntity> billOfMaterials;
 }

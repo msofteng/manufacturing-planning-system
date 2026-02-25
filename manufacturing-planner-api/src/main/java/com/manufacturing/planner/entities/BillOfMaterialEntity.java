@@ -14,7 +14,7 @@ public class BillOfMaterialEntity {
 
   @ManyToOne
   @JoinColumn(name = "product_id")
-  @JsonIgnore // Quebra a referência circular com ProductEntity
+  @JsonIgnore
   private ProductEntity product;
 
   @ManyToOne
