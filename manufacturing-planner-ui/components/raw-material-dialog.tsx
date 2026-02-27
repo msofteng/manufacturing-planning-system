@@ -12,8 +12,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import type { RawMaterial } from "@/lib/types"
 import { generateId } from "@/lib/store"
+import { RawMaterial } from "@/lib/mp.entities"
 
 interface RawMaterialDialogProps {
   open: boolean
@@ -47,7 +47,7 @@ export function RawMaterialDialog({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSave({
-      id: material?.id || generateId(),
+      id: material?.id || NaN,
       code,
       name,
       stockQuantity: Number(stockQuantity),

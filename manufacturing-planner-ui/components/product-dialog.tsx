@@ -21,8 +21,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import type { Product, RawMaterial, BillOfMaterialItem } from "@/lib/types"
-import { generateId, getRawMaterials } from "@/lib/store"
+// import { generateId } from "@/lib/store"
+import { BillOfMaterialItem, Product, RawMaterial } from "@/lib/mp.entities"
+import service from "@/lib/service"
 
 interface ProductDialogProps {
   open: boolean
@@ -30,6 +31,14 @@ interface ProductDialogProps {
   product?: Product | null
   onSave: (product: Product) => void
 }
+
+type BillOfMaterialItemDialog = BillOfMaterialItem & {
+  rawMaterialId: number
+}
+
+// interface BillOfMaterialItemDialog extends BillOfMaterialItem {
+//   rawMaterialId: number;
+// }
 
 export function ProductDialog({
   open,
@@ -40,11 +49,11 @@ export function ProductDialog({
   const [code, setCode] = useState("")
   const [name, setName] = useState("")
   const [price, setPrice] = useState("")
-  const [bom, setBom] = useState<BillOfMaterialItem[]>([])
+  const [bom, setBom] = useState<BillOfMaterialItemDialog[]>([])
   const [rawMaterials, setRawMaterials] = useState<RawMaterial[]>([])
 
   useEffect(() => {
-    setRawMaterials(getRawMaterials())
+    service.getRawMaterials().then(setRawMaterials)
   }, [open])
 
   useEffect(() => {
@@ -52,7 +61,7 @@ export function ProductDialog({
       setCode(product.code)
       setName(product.name)
       setPrice(product.price.toString())
-      setBom([...product.billOfMaterials])
+      setBom([...product.billOfMaterials.map(bom => ({ ...bom, rawMaterialId: bom.rawMaterial.id }))])
     } else {
       setCode("")
       setName("")
@@ -64,19 +73,27 @@ export function ProductDialog({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSave({
-      id: product?.id || generateId(),
+      id: product?.id || NaN,
       code,
       name,
       price: Number(price),
       billOfMaterials: bom.filter(
-        (item) => item.rawMaterialId && item.quantityNeeded > 0
+        (item) => item.rawMaterial.id && item.quantityNeeded > 0
       ),
     })
     onOpenChange(false)
   }
 
   const addBomItem = () => {
-    setBom([...bom, { rawMaterialId: "", quantityNeeded: 0 }])
+    setBom([...bom, {
+      id: NaN, rawMaterial: {
+        id: NaN,
+        code: "",
+        name: "",
+        stockQuantity: 0
+      }, quantityNeeded: 0,
+      rawMaterialId: NaN
+    }])
   }
 
   const removeBomItem = (index: number) => {
@@ -85,19 +102,19 @@ export function ProductDialog({
 
   const updateBomItem = (
     index: number,
-    field: keyof BillOfMaterialItem,
+    field: keyof BillOfMaterialItemDialog,
     value: string | number
   ) => {
     const updated = [...bom]
     if (field === "rawMaterialId") {
-      updated[index] = { ...updated[index], rawMaterialId: value as string }
+      updated[index] = { ...updated[index], rawMaterialId: Number(value) }
     } else {
       updated[index] = { ...updated[index], quantityNeeded: Number(value) }
     }
     setBom(updated)
   }
 
-  const usedMaterialIds = bom.map((item) => item.rawMaterialId)
+  const usedMaterialIds = bom.map((item) => item.rawMaterial.id)
 
   const isEditing = !!product
 
@@ -183,7 +200,7 @@ export function ProductDialog({
                     Material
                   </Label>
                   <Select
-                    value={item.rawMaterialId}
+                    value={item.rawMaterialId.toString()}
                     onValueChange={(val) =>
                       updateBomItem(index, "rawMaterialId", val)
                     }
@@ -199,7 +216,7 @@ export function ProductDialog({
                             !usedMaterialIds.includes(rm.id)
                         )
                         .map((rm) => (
-                          <SelectItem key={rm.id} value={rm.id}>
+                          <SelectItem key={rm.id} value={rm.id.toString()}>
                             {rm.code} - {rm.name}
                           </SelectItem>
                         ))}

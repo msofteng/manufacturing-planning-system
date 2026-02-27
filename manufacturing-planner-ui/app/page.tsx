@@ -28,9 +28,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { PageHeader } from "@/components/page-header"
-import type { Product, RawMaterial } from "@/lib/types"
-import { getProducts, getRawMaterials } from "@/lib/store"
 import service from "@/lib/service"
+import { Product, RawMaterial } from "@/lib/mp.entities"
 
 export default function DashboardPage() {
   const [products, setProducts] = useState<Product[]>([])
@@ -38,8 +37,8 @@ export default function DashboardPage() {
   const [message, setMessage] = useState<string>("-")
 
   useEffect(() => {
-    setProducts(getProducts())
-    setRawMaterials(getRawMaterials())
+    service.getProducts().then(setProducts)
+    service.getRawMaterials().then(setRawMaterials)
     service.fetchTestApi().then(message => setMessage(message))
   }, [])
 

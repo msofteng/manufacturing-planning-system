@@ -15,8 +15,9 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { PageHeader } from "@/components/page-header"
-import type { Product, RawMaterial, ProductionPlanItem } from "@/lib/types"
-import { getProducts, getRawMaterials } from "@/lib/store"
+import type { ProductionPlanItem } from "@/lib/types"
+import service from "@/lib/service"
+import { Product, RawMaterial } from "@/lib/mp.entities"
 
 function calculateProductionPlan(
   products: Product[],
@@ -27,7 +28,7 @@ function calculateProductionPlan(
 
   // Create a map of available stock (mutable copy)
   const availableStock = new Map<string, number>()
-  rawMaterials.forEach((rm) => availableStock.set(rm.id, rm.stockQuantity))
+  rawMaterials.forEach((rm) => availableStock.set(rm.id.toString(), rm.stockQuantity))
 
   const plan: ProductionPlanItem[] = []
 
@@ -38,14 +39,14 @@ function calculateProductionPlan(
     let maxQty = Infinity
 
     for (const bomItem of product.billOfMaterials) {
-      const available = availableStock.get(bomItem.rawMaterialId) || 0
+      const available = availableStock.get(bomItem.rawMaterial.id.toString()) || 0
       const possibleFromThis = Math.floor(available / bomItem.quantityNeeded)
       maxQty = Math.min(maxQty, possibleFromThis)
     }
 
     if (maxQty === Infinity || maxQty <= 0) {
       plan.push({
-        productId: product.id,
+        productId: product.id.toString(),
         productName: product.name,
         productCode: product.code,
         maxQuantity: 0,
@@ -57,15 +58,15 @@ function calculateProductionPlan(
 
     // Deduct the consumed materials from available stock
     for (const bomItem of product.billOfMaterials) {
-      const current = availableStock.get(bomItem.rawMaterialId) || 0
+      const current = availableStock.get(bomItem.rawMaterial.id.toString()) || 0
       availableStock.set(
-        bomItem.rawMaterialId,
+        bomItem.rawMaterial.id.toString(),
         current - maxQty * bomItem.quantityNeeded
       )
     }
 
     plan.push({
-      productId: product.id,
+      productId: product.id.toString(),
       productName: product.name,
       productCode: product.code,
       maxQuantity: maxQty,
@@ -83,8 +84,8 @@ export default function ProductionPlanningPage() {
   const [planCalculated, setPlanCalculated] = useState(false)
 
   useEffect(() => {
-    setProducts(getProducts())
-    setRawMaterials(getRawMaterials())
+    service.getProducts().then(setProducts)
+    service.getRawMaterials().then(setRawMaterials)
   }, [])
 
   const plan = useMemo(() => {
@@ -100,8 +101,8 @@ export default function ProductionPlanningPage() {
   const producibleProducts = plan.filter((item) => item.maxQuantity > 0).length
 
   const handleCalculate = () => {
-    setProducts(getProducts())
-    setRawMaterials(getRawMaterials())
+    service.getProducts().then(setProducts)
+    service.getRawMaterials().then(setRawMaterials)
     setPlanCalculated(true)
   }
 

@@ -27,8 +27,8 @@ import {
 } from "@/components/ui/alert-dialog"
 import { PageHeader } from "@/components/page-header"
 import { ProductDialog } from "@/components/product-dialog"
-import type { Product, RawMaterial } from "@/lib/types"
-import { getProducts, saveProducts, getRawMaterials } from "@/lib/store"
+import { Product, RawMaterial } from "@/lib/mp.entities"
+import service from "@/lib/service"
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
@@ -40,8 +40,8 @@ export default function ProductsPage() {
   const [deletingProduct, setDeletingProduct] = useState<Product | null>(null)
 
   useEffect(() => {
-    setProducts(getProducts())
-    setRawMaterials(getRawMaterials())
+    service.getProducts().then(setProducts)
+    service.getRawMaterials().then(setRawMaterials)
   }, [])
 
   const filtered = products.filter(
@@ -62,7 +62,8 @@ export default function ProductsPage() {
         toast.success("Product created successfully.")
       }
       setProducts(updated)
-      saveProducts(updated)
+      // [TODO]: Atualizar todos os produtos no banco de dados
+      // saveProducts(updated)
       setEditingProduct(null)
     },
     [products]
@@ -72,14 +73,15 @@ export default function ProductsPage() {
     if (!deletingProduct) return
     const updated = products.filter((p) => p.id !== deletingProduct.id)
     setProducts(updated)
-    saveProducts(updated)
+    // [TODO]: Atualizar todos os produtos no banco de dados
+    // saveProducts(updated)
     setDeleteDialogOpen(false)
     setDeletingProduct(null)
     toast.success("Product deleted.")
   }, [products, deletingProduct])
 
-  const getMaterialName = (id: string) => {
-    return rawMaterials.find((rm) => rm.id === id)?.name || "Unknown"
+  const getMaterialName = (code: string) => {
+    return rawMaterials.find((rm) => rm.code === code)?.name || "Unknown"
   }
 
   return (
@@ -152,13 +154,13 @@ export default function ProductsPage() {
                               None
                             </span>
                           ) : (
-                            product.billOfMaterials.map((bom) => (
+                            product.billOfMaterials.map((bom, index) => (
                               <Badge
-                                key={bom.rawMaterialId}
+                                key={bom.rawMaterial.code ?? index}
                                 variant="secondary"
                                 className="text-xs"
                               >
-                                {getMaterialName(bom.rawMaterialId)} ({bom.quantityNeeded})
+                                {getMaterialName(bom.rawMaterial.code)} ({bom.quantityNeeded})
                               </Badge>
                             ))
                           )}

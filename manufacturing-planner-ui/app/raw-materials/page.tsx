@@ -27,8 +27,8 @@ import {
 } from "@/components/ui/alert-dialog"
 import { PageHeader } from "@/components/page-header"
 import { RawMaterialDialog } from "@/components/raw-material-dialog"
-import type { RawMaterial } from "@/lib/types"
-import { getRawMaterials, saveRawMaterials } from "@/lib/store"
+import service from "@/lib/service"
+import { RawMaterial } from "@/lib/mp.entities"
 
 export default function RawMaterialsPage() {
   const [materials, setMaterials] = useState<RawMaterial[]>([])
@@ -43,7 +43,7 @@ export default function RawMaterialsPage() {
   )
 
   useEffect(() => {
-    setMaterials(getRawMaterials())
+    service.getRawMaterials().then(setMaterials)
   }, [])
 
   const filtered = materials.filter(
@@ -64,7 +64,8 @@ export default function RawMaterialsPage() {
         toast.success("Raw material created successfully.")
       }
       setMaterials(updated)
-      saveRawMaterials(updated)
+      // [TODO]: Atualizar todas as matérias primas no banco de dados
+      // saveRawMaterials(updated)
       setEditingMaterial(null)
     },
     [materials]
@@ -74,7 +75,8 @@ export default function RawMaterialsPage() {
     if (!deletingMaterial) return
     const updated = materials.filter((m) => m.id !== deletingMaterial.id)
     setMaterials(updated)
-    saveRawMaterials(updated)
+    // [TODO]: Atualizar todas as matérias primas no banco de dados
+    // saveRawMaterials(updated)
     setDeleteDialogOpen(false)
     setDeletingMaterial(null)
     toast.success("Raw material deleted.")
