@@ -28,10 +28,10 @@ A **priorização de quais produtos devem ser sugeridos pelo sistema**, **deve s
 #### Requisitos funcionais 
 
 - **RF001** – Desenvolver no back-end as funcionalidades CRUD para manter o cadastro de produtos.
-
 - **RF002** – Desenvolver no back-end as funcionalidades CRUD para manter o cadastro de matérias primas.
 - **RF003** – Desenvolver no back-end as funcionalidades CRUD para associar matérias-primas aos produtos.
 - **RF004** – Desenvolver no back-end as funcionalidades para a consulta dos produtos que podem ser produzidos com as matérias-primas disponíveis em estoque.
+
 - **RF005** – Desenvolver no front-end uma interface gráfica que possibilite realizar as operações CRUD para manter o cadastro de produtos.
 - **RF006** – Desenvolver no front-end uma interface gráfica que possibilite realizar as operações CRUD para manter o cadastro de matérias primas.
 - **RF007** – Desenvolver no front-end uma interface gráfica que possibilite realizar as operações CRUD para associar matérias-primas aos produtos. Não há a necessidade de ser uma tela separada, podendo ser inserida a interface no cadastro de produtos.
